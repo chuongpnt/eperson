@@ -1,0 +1,4 @@
+#nodejs
+FROM node:alpine
+
+MAINTAINER Nam Dinh <dinhtrongnam@gmail>

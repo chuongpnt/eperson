@@ -1,0 +1,52 @@
+# building app and required component for running the app
+version: '3.1'
+services:
+    app:
+        container_name: eperson_app
+        build: 
+            context: .
+            dockerfile: dockers/php7
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+    web:
+        container_name: eperson_web
+        build: 
+            context: .
+            dockerfile: dockers/nginx
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        ports:
+            - 8080:80
+        depends_on:
+            - app
+        links:
+            - app
+    nodejs:
+        container_name: eperson_nodejs
+        build: 
+            context: .
+            dockerfile: dockers/nodejs
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        expose:
+            - 8888
+        command: yarn run watch-poll 
+    database:
+        container_name: eperson_db
+        build:
+            context: .
+            dockerfile: dockers/mysql
+        volumes:
+            - dbdata:/var/lib/mysql
+        ports:
+            - 33063:3306
+        environment:
+            - MYSQL_DATABASE=homestead
+            - MYSQL_USER=homestead
+            - MYSQL_PASSWORD=secret
+            - MYSQL_ROOT_PASSWORD=secret
+volumes:
+    dbdata:

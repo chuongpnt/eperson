@@ -1,0 +1,5 @@
+#nginx
+FROM nginx:1.10
+
+MAINTAINER Nam Dinh <dinhtrongnam@gmail>
+ADD dockers/vhost.conf /etc/nginx/conf.d/default.conf
